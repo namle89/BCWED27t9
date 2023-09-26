@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WEBPAGE</title>
+    <link href="button.css" rel="stylesheet">
+</head>
+<body>
+    <center>
+        <font face="Lato" size="5">
+            <img src="demo.jpeg" height="150px" width="450px">
+        </font>
+    </center>
+
+    <h1>Video with Subtitles</h1>
+
+    <!-- Nhúng video từ YouTube -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/bZQun8Y4L2A?si=P9tDBPoU0netj_No" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+   <div id="subtitle-container">
+	<p id="subtitle"></p>
+</div>
+
+<!-- Tạo liên kết để tải file SRT -->
+<a href="subtitle.srt" target="_blank">Tải Phụ Đề</a>
+
+<script>
+	// Khai báo biến
+	const subtitleDiv = document.getElementById('subtitle');
+
+	// Hàm để đọc và hiển thị nội dung file .srt
+	function loadSRTFile(file) {
+		fetch(file)
+			.then(response => response.text())
+			.then(data => {
+				// Hiển thị nội dung SRT trong thẻ p
+				subtitleDiv.innerHTML = data.replace(/\n/g, '<br>');
+			})
+			.catch(error => {
+				console.error('Error loading subtitle:', error);
+			});
+	}
+
+	// Tải file .srt và hiển thị nội dung
+	loadSRTFile('subtitleVD2.srt');
+
+	
+	
+</script>
+</body>
+</html>

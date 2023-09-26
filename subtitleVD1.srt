@@ -1,0 +1,3411 @@
+1
+00:00:00,512 --> 00:00:06,656
+All right well this is a 650 Tech talk thank you all so much for coming so about a week ago we circulated the Google form
+
+2
+00:00:06,912 --> 00:00:13,056
+How warm is you might have seen at 10:52 a.m. and by like 11:52 a.m. we had a hundred is which I think is
+
+3
+00:00:13,312 --> 00:00:18,944
+Play sort of Testament to just how much interest there is in this world of AI and open Ai and GPT Chachi PT in the like
+
+4
+00:00:19,200 --> 00:00:25,344
+And in fact if you're sort of generally familiar with what everyone's talking about but you haven't tried it yourself like this is the URL
+
+5
+00:00:25,600 --> 00:00:28,672
+What you can try out this tool that you've probably heard about chat GPT
+
+6
+00:00:28,928 --> 00:00:35,072
+You can sign up for a free account there and start tinkering with what everyone else has been tinkering with and then if you're more of the app mind
+
+7
+00:00:35,328 --> 00:00:41,472
+Has its own low-level apis
+
+8
+00:00:48,128 --> 00:00:54,272
+Actions and services that have been built on top of these Technologies and we're so happy today to be joined by our friends from McGill
+
+9
+00:00:54,528 --> 00:00:55,808
+Spell university and steamship
+
+10
+00:00:56,064 --> 00:01:02,208
+Are seal and Ted from you here in just a moment to speak to us about how they are making it easier to build
+
+11
+00:01:02,464 --> 00:01:08,608
+To deploy to share applications using some of these very same technology so are things to them for hosting today our friends
+
+12
+00:01:08,864 --> 00:01:15,008
+Did Clemson Jenny Lee an alumna who's here with us today but without further Ado allow me to turn things over to Ted and sill and pizza will be served shortly
+
+13
+00:01:15,264 --> 00:01:16,800
+Play after 1:00 p.m. outside
+
+14
+00:01:18,848 --> 00:01:20,384
+Thanks a lot
+
+15
+00:01:21,152 --> 00:01:27,296
+Hey everybody it's great to be here I think we've got a really good talk for you today still going to provide some res
+
+16
+00:01:27,552 --> 00:01:30,368
+Research grounding into how it all works what's going inside
+
+17
+00:01:30,624 --> 00:01:33,952
+The brain of GPT as well as other language models
+
+18
+00:01:34,208 --> 00:01:40,096
+And then I'll show you some examples that we're seeing on the ground of how people are building apps and what apps tend to work in the real world
+
+19
+00:01:40,352 --> 00:01:46,496
+So our perspective is we're building AWS for AI app so we get to talk to a lot of the makers who are building and deploying their apps
+
+20
+00:01:46,752 --> 00:01:49,568
+And through that see both the experimental end of the spectrum
+
+21
+00:01:49,824 --> 00:01:54,944
+And also see what kinds of apps are getting pushed out there and turned into companies turned into side projects
+
+22
+00:01:55,200 --> 00:01:56,480
+We did a cool
+
+23
+00:01:56,736 --> 00:02:02,880
+A hackathon yesterday many things to Neiman to David Manning cs50 for helping us put all of
+
+24
+00:02:03,136 --> 00:02:04,416
+Put this together to Harvard for hosting it
+
+25
+00:02:04,672 --> 00:02:08,768
+And there were two sessions lots of folks built things if you go to
+
+26
+00:02:09,024 --> 00:02:15,168
+Steamship dot calm slash hackathon you'll find a lot of guides a lot of projects that people build and you can follow along we have a
+
+27
+00:02:15,424 --> 00:02:17,984
+Text guide as well just as a quick plug for that
+
+28
+00:02:18,240 --> 00:02:20,800
+If you want to do it remotely or on your own
+
+29
+00:02:22,080 --> 00:02:26,688
+To tee up so we're going to talk about basically two things today that I hope you walk away with
+
+30
+00:02:26,944 --> 00:02:33,088
+What is GPT and how is it working
+
+31
+00:02:33,344 --> 00:02:38,208
+You can get a good sense of what's going on inside of it other than as just this magical machine that predicts things
+
+32
+00:02:38,464 --> 00:02:41,792
+And then two is how are people building with it and then importantly how can I
+
+33
+00:02:42,048 --> 00:02:48,192
+Build with it too if you are Developer and if you have cs50 background you should be able to pick things up and start building some great apps I've
+
+34
+00:02:48,448 --> 00:02:49,984
+I've already met some of the cs50 grads yesterday
+
+35
+00:02:50,240 --> 00:02:52,032
+And the things that they were doing were pretty amazing so
+
+36
+00:02:52,288 --> 00:02:58,432
+And talk about some of the theoretical background of GPT
+
+37
+00:02:59,200 --> 00:03:02,016
+Yeah so thank you Ted my name is song
+
+38
+00:03:02,272 --> 00:03:04,320
+Graduate student in the digital Humanities at Miguel
+
+39
+00:03:04,576 --> 00:03:07,904
+I studied literature and computer science in linguistics in the same breath
+
+40
+00:03:08,416 --> 00:03:12,256
+And I published some research over the last couple of years exploring what is possible
+
+41
+00:03:12,512 --> 00:03:13,536
+With language models
+
+42
+00:03:13,792 --> 00:03:15,072
+And culture in particular
+
+43
+00:03:16,352 --> 00:03:17,376
+My
+
+44
+00:03:18,400 --> 00:03:21,472
+Whatever of the presentation is to describe to you what is GPT
+
+45
+00:03:21,728 --> 00:03:23,776
+That's really difficult to explain in 15 minutes
+
+46
+00:03:24,032 --> 00:03:29,664
+And there are even a lot of things that we don't know but a good way to approach that is the first consider all the things
+
+47
+00:03:30,176 --> 00:03:31,456
+The people call GPT by
+
+48
+00:03:31,712 --> 00:03:32,736
+Play or descript
+
+49
+00:03:33,248 --> 00:03:35,296
+So you can call them large language models
+
+50
+00:03:35,552 --> 00:03:37,600
+You can call them Universal
+
+51
+00:03:37,856 --> 00:03:41,696
+From computer science you can say that that it is a generative AI
+
+52
+00:03:42,208 --> 00:03:46,048
+We know that they are neural networks we know that it is an artificial intelligence
+
+53
+00:03:46,304 --> 00:03:49,632
+The sun is a simulator of culture to others it just predicts text
+
+54
+00:03:50,144 --> 00:03:55,776
+You can plug in a pit of your essay get some feedback it's amazing for that
+
+55
+00:03:56,288 --> 00:04:00,384
+It's a Content generator people use it to do copywriting Jasper dot AI
+
+56
+00:04:00,640 --> 00:04:01,920
+Should I write etcetera
+
+57
+00:04:02,176 --> 00:04:08,320
+It's an agent so the really hot thing right now if you want to see it on Twitter Auto GPT baby AGI
+
+58
+00:04:08,576 --> 00:04:10,112
+People are giving these things tools
+
+59
+00:04:10,368 --> 00:04:12,672
+And letting them run a little bit free in the wild
+
+60
+00:04:13,184 --> 00:04:15,744
+Turn tracks with the world computers etc
+
+61
+00:04:18,815 --> 00:04:20,351
+The actual architecture
+
+62
+00:04:20,863 --> 00:04:23,935
+Is the Transformers so there's lots of ways to describe GPT
+
+63
+00:04:24,447 --> 00:04:27,519
+And any other one of them is a really perfectly adequate way
+
+64
+00:04:27,775 --> 00:04:29,311
+To begin the conversation
+
+65
+00:04:29,567 --> 00:04:34,431
+But for our purposes we can think of it as a large language model and more specifically a language model
+
+66
+00:04:36,479 --> 00:04:38,527
+Is a model of language
+
+67
+00:04:39,039 --> 00:04:44,159
+If you want me to tautology but really what it does is it produces a probability distribution over some vocabulary
+
+68
+00:04:44,671 --> 00:04:47,743
+So what is imagine that we had the task of
+
+69
+00:04:47,999 --> 00:04:49,279
+Predicting the next word
+
+70
+00:04:49,791 --> 00:04:51,839
+On the sequence I am so if I give
+
+71
+00:04:53,631 --> 00:04:54,655
+The words I am
+
+72
+00:04:55,423 --> 00:04:56,191
+What
+
+73
+00:04:56,447 --> 00:04:57,471
+All words in English
+
+74
+00:04:57,727 --> 00:04:59,519
+Is the next most likely word to follow
+
+75
+00:05:00,031 --> 00:05:02,335
+That at its very core is what GPT
+
+76
+00:05:02,591 --> 00:05:03,615
+Is trained to answer
+
+77
+00:05:04,639 --> 00:05:08,223
+And how it does it is it has a vocabulary of 50,000 words
+
+78
+00:05:08,735 --> 00:05:11,807
+And it knows roughly given the entire internet
+
+79
+00:05:12,063 --> 00:05:14,623
+Which words are likely to follow other words
+
+80
+00:05:15,647 --> 00:05:21,791
+Are those 50,000 in some sequence up to 2000 words up to 4000 up to 8,000 and now up
+
+81
+00:05:22,047 --> 00:05:23,327
+What's 32000354
+
+82
+00:05:23,583 --> 00:05:25,887
+So you give it a sequence here I am
+
+83
+00:05:26,143 --> 00:05:28,703
+And over the vocabulary of 50 words
+
+84
+00:05:29,215 --> 00:05:33,311
+It gives you the likelihood of every single word that follows so here it's
+
+85
+00:05:33,567 --> 00:05:34,079
+I am
+
+86
+00:05:34,335 --> 00:05:35,871
+Perhaps the word happiest
+
+87
+00:05:36,127 --> 00:05:39,455
+Fairly frequent so we'll get that high probability if we look at all words
+
+88
+00:05:39,711 --> 00:05:40,991
+All utterances of English
+
+89
+00:05:41,503 --> 00:05:43,551
+It might be I am sad maybe that's a little bit
+
+90
+00:05:43,807 --> 00:05:48,415
+What's probable I am school that really should be at the end cuz I don't think anybody would ever say that
+
+91
+00:05:48,671 --> 00:05:50,207
+I am Bjork that's a little bit
+
+92
+00:05:50,719 --> 00:05:56,863
+It's not very probable but it's less probable than happy sad but there's still some probability attached to it and when we say it's probable
+
+93
+00:06:00,191 --> 00:06:03,263
+Follows I am maybe like 5% of the time
+
+94
+00:06:03,519 --> 00:06:05,823
+Side Falls I am maybe 2% of the time
+
+95
+00:06:06,335 --> 00:06:08,895
+Or whatever so for every word
+
+96
+00:06:11,455 --> 00:06:13,247
+It tries to predict what the next word is
+
+97
+00:06:13,759 --> 00:06:18,111
+I cross 50,000 words and it gives every single one of those 50,000 words
+
+98
+00:06:19,135 --> 00:06:21,439
+Number that reflects how probable
+
+99
+00:06:22,975 --> 00:06:27,071
+And the Really magical thing that happens is you can generate new text
+
+100
+00:06:27,327 --> 00:06:30,911
+So if you give GPT I am and it products
+
+101
+00:06:31,935 --> 00:06:35,263
+Happy as being the most probable word over 50,000
+
+102
+00:06:35,519 --> 00:06:36,287
+You can then
+
+103
+00:06:36,799 --> 00:06:39,103
+Pendant to I am so now you say I am happy
+
+104
+00:06:39,359 --> 00:06:40,895
+And you feed it into the model again
+
+105
+00:06:41,151 --> 00:06:44,991
+Can you sample another word you feed it into the model again and again and again and again
+
+106
+00:06:45,247 --> 00:06:48,831
+There's lots of different ways that I am happy I am sad can go
+
+107
+00:06:50,879 --> 00:06:54,207
+And all the sudden you have a language model that can write essays that can talk
+
+108
+00:06:54,719 --> 00:06:55,999
+And a whole lot of things
+
+109
+00:06:56,511 --> 00:07:00,095
+Which is really unexpected and something that we didn't predict more even 5 years ago
+
+110
+00:07:00,351 --> 00:07:01,631
+So this is all relevant
+
+111
+00:07:01,887 --> 00:07:03,167
+And if we move on
+
+112
+00:07:05,983 --> 00:07:12,127
+As we scale up the model and we give it more compute in 2012 Alex that came out and we figured out we can give
+
+113
+00:07:13,151 --> 00:07:14,943
+We can run the model on gpus
+
+114
+00:07:15,199 --> 00:07:16,479
+So we can speed up the process
+
+115
+00:07:16,735 --> 00:07:20,063
+We can give the model lots of information downloaded from the internet
+
+116
+00:07:20,319 --> 00:07:21,599
+And it learns more and more and
+
+117
+00:07:21,855 --> 00:07:24,159
+And the probabilities that gives you
+
+118
+00:07:24,415 --> 00:07:26,975
+Get better as it sees more examples of English on the
+
+119
+00:07:27,487 --> 00:07:29,535
+So we have to train the model to be really large
+
+120
+00:07:30,047 --> 00:07:30,815
+Really wide
+
+121
+00:07:31,071 --> 00:07:32,607
+And with the trainer for a really long time
+
+122
+00:07:32,863 --> 00:07:35,167
+And as we do that the model gets more and more
+
+123
+00:07:37,727 --> 00:07:39,519
+And it also gets a little bit intelligent
+
+124
+00:07:39,775 --> 00:07:41,055
+And for reasons we don't understand
+
+125
+00:07:43,615 --> 00:07:46,943
+But they also the issue is that because it learns to replicate the internet
+
+126
+00:07:48,479 --> 00:07:50,271
+Knows how to speak in a lot of different genres
+
+127
+00:07:50,527 --> 00:07:52,063
+What is a text and a lot of different registers
+
+128
+00:07:52,319 --> 00:07:53,855
+If you begin the conversation like
+
+129
+00:07:54,367 --> 00:07:58,463
+Can you explain the moon landing to a 6 year old and a few sentences gpt-3
+
+130
+00:07:58,719 --> 00:08:01,791
+Is an example drawn from the instructor GPT paper from openai
+
+131
+00:08:02,815 --> 00:08:05,119
+Gpt-3 what I'm just been like
+
+132
+00:08:05,631 --> 00:08:06,399
+Okay so
+
+133
+00:08:06,655 --> 00:08:12,799
+You give me an example of explain the moon landing to a 6 year old I'm going to give you a whole bunch of similar things because those seem very likely to come
+
+134
+00:08:13,567 --> 00:08:17,407
+It doesn't necessarily understand that it's being asked a question has to respond with an
+
+135
+00:08:18,175 --> 00:08:19,711
+Gpt-3 did
+
+136
+00:08:19,967 --> 00:08:23,039
+Don't have the apparatus that interface for responding
+
+137
+00:08:25,855 --> 00:08:26,879
+The scientist
+
+138
+00:08:27,391 --> 00:08:29,695
+Open it I came up with the solution and that's
+
+139
+00:08:30,207 --> 00:08:32,767
+Let's give it a whole bunch of examples of question and answers
+
+140
+00:08:33,279 --> 00:08:35,071
+Such that we first trained on the internet
+
+141
+00:08:35,583 --> 00:08:38,143
+And then we train it with a whole bunch of questions and answers
+
+142
+00:08:38,655 --> 00:08:40,703
+Such that it has the knowledge of the internet
+
+143
+00:08:41,215 --> 00:08:43,519
+But really knows that it has to be answering questions
+
+144
+00:08:44,031 --> 00:08:50,175
+And that is when Chachi PT was born and that's when it gained 100 million users in one
+
+145
+00:08:50,431 --> 00:08:52,991
+Record at 20 million in one month
+
+146
+00:08:54,783 --> 00:08:56,063
+And for a lot of people
+
+147
+00:08:57,855 --> 00:09:03,231
+This thing is intelligent I can answer I can ask it questions and answers back we can work together to come to a solution
+
+148
+00:09:03,487 --> 00:09:04,511
+And that's because
+
+149
+00:09:08,095 --> 00:09:09,375
+Put a nose that predicts words
+
+150
+00:09:09,887 --> 00:09:11,167
+In the framework
+
+151
+00:09:11,423 --> 00:09:12,703
+I have a question and answer
+
+152
+00:09:13,215 --> 00:09:14,239
+So that's what a prompt is
+
+153
+00:09:14,495 --> 00:09:16,799
+That's what instruction tuning is that's a keyword
+
+154
+00:09:19,359 --> 00:09:23,199
+Are lhf is if you've ever seen that acronym reinforcement alignment
+
+155
+00:09:23,455 --> 00:09:24,223
+Human feedback
+
+156
+00:09:24,735 --> 00:09:26,783
+And all those combined means that
+
+157
+00:09:27,295 --> 00:09:28,575
+The bottles that are coming out today
+
+158
+00:09:29,087 --> 00:09:31,391
+The types of language protectors that are coming out today
+
+159
+00:09:31,647 --> 00:09:33,183
+Work to operate in a Q&A form
+
+160
+00:09:33,951 --> 00:09:37,279
+GPT 4 exclusively only has the a wine bottle
+
+161
+00:09:37,535 --> 00:09:39,583
+Available and this is a really
+
+162
+00:09:40,863 --> 00:09:42,655
+Solid foundation to build on
+
+163
+00:09:42,911 --> 00:09:44,703
+Because you can do all sorts of things you can ask
+
+164
+00:09:44,959 --> 00:09:47,007
+Can you do this for me can you do that for me
+
+165
+00:09:47,263 --> 00:09:52,383
+You might have seen that openai has allowed plug-in access to check CPT so I can access Wolfram
+
+166
+00:09:52,639 --> 00:09:54,175
+I can search the web I can search
+
+167
+00:09:54,431 --> 00:09:55,967
+I can do instacart for you
+
+168
+00:09:56,223 --> 00:09:57,503
+I can look up recipes
+
+169
+00:09:58,783 --> 00:09:59,807
+What's the model
+
+170
+00:10:00,063 --> 00:10:03,391
+Knows that not only it has to predict language but that it has
+
+171
+00:10:03,647 --> 00:10:04,671
+Solve the problem
+
+172
+00:10:05,695 --> 00:10:07,231
+And the problem here being
+
+173
+00:10:07,487 --> 00:10:09,279
+Give me a good answer to my question
+
+174
+00:10:09,535 --> 00:10:12,607
+It's suddenly able to interface with the world in a really solid way
+
+175
+00:10:12,863 --> 00:10:16,703
+And from there on there's been all sorts of tools that I build on
+
+176
+00:10:16,959 --> 00:10:19,007
+Does Q&A form that Chachi Beattie uses
+
+177
+00:10:19,519 --> 00:10:20,031
+You have
+
+178
+00:10:20,543 --> 00:10:23,359
+Auto GPT you have Lang chain you have
+
+179
+00:10:24,383 --> 00:10:28,479
+React there's a react paper where a lot of these come from and
+
+180
+00:10:29,247 --> 00:10:32,575
+Turn in the model into an agent with which to achieve
+
+181
+00:10:33,087 --> 00:10:35,647
+Any ambiguous goal is where the future is going
+
+182
+00:10:35,903 --> 00:10:37,695
+Good morning and this is all thanks to instruction tuning
+
+183
+00:10:39,487 --> 00:10:41,279
+What's that I think I will hand it off to Ted
+
+184
+00:10:41,791 --> 00:10:43,071
+Who will be giving a demo
+
+185
+00:10:43,327 --> 00:10:45,631
+Or something along those lines for how to
+
+186
+00:10:46,143 --> 00:10:47,423
+Use GPT as
+
+187
+00:10:51,775 --> 00:10:54,335
+All right so I'm a super applied guy
+
+188
+00:10:54,591 --> 00:11:00,735
+I kind of look at things and think okay how can I like to add this Lego add that Lego and clip them together
+
+189
+00:11:00,991 --> 00:11:02,015
+Together and build something with it
+
+190
+00:11:02,527 --> 00:11:06,367
+And right now you know if you look back in computer science history
+
+191
+00:11:06,623 --> 00:11:09,951
+When you look at the kinds of things that were being done in 1970
+
+192
+00:11:10,207 --> 00:11:13,279
+Right after Computing was invented the microprocessors were invented
+
+193
+00:11:13,791 --> 00:11:19,935
+People were doing research like how do I sort a list of numbers and that was meaningful work and importantly it was work that successful
+
+194
+00:11:20,191 --> 00:11:26,335
+Call to everybody because nobody knows what we can build with this new kind of oil this new kind of electricity this new kind of unit
+
+195
+00:11:26,591 --> 00:11:27,359
+Do you need a computation
+
+196
+00:11:27,615 --> 00:11:33,759
+We've created and anything was game and anybody could participate in that game to figure it out and I think one of the really
+
+197
+00:11:34,015 --> 00:11:35,551
+Play exciting things about GPT right now
+
+198
+00:11:35,807 --> 00:11:38,367
+Is yes in and of itself it's amazing
+
+199
+00:11:38,879 --> 00:11:41,183
+But then what could we do with it
+
+200
+00:11:41,439 --> 00:11:47,583
+If we call it over and over again if we build it into our algorithms and start to build it into broader software so the world really is
+
+201
+00:11:47,839 --> 00:11:53,983
+Yours to figure out this fundamental questions about what could you do if you could script computation itself over
+
+202
+00:11:54,239 --> 00:11:55,007
+Over and over again
+
+203
+00:11:55,263 --> 00:11:59,103
+In the way that computers can do not just talk with it but build things a topic
+
+204
+00:11:59,359 --> 00:12:05,503
+So we're hosting company we host apps and these are just some of the things that we see I'm going to show you demos of this
+
+205
+00:12:05,759 --> 00:12:11,903
+What is with code and try to explain some of the thought process but I wanted to give you a high level of overview of you've probably seen these on
+
+206
+00:12:12,159 --> 00:12:18,303
+Open Twitter but kind of win it all sorts out to the top these are some of the things that we're seeing built and deployed with language
+
+207
+00:12:18,559 --> 00:12:19,071
+What's the models today
+
+208
+00:12:19,327 --> 00:12:20,351
+Companionship
+
+209
+00:12:20,863 --> 00:12:27,007
+That's everything for my need a friend do I need a friend with a purpose I want to coach I want somebody to tell me go to the gym and do these
+
+210
+00:12:27,263 --> 00:12:29,055
+What size is I want somebody to help me study a foreign language
+
+211
+00:12:29,567 --> 00:12:35,711
+Question answering this is a big one this is everything from your Newsroom having a slack bot that helps assist you does
+
+212
+00:12:35,967 --> 00:12:36,735
+What is this article
+
+213
+00:12:36,991 --> 00:12:43,135
+Conform to the Style Guidelines of our Newsroom all the way through to I need help on my homework or hey I have
+
+214
+00:12:43,391 --> 00:12:45,183
+Play some questions that I want you to ask Wikipedia
+
+215
+00:12:45,439 --> 00:12:48,511
+Combine it with something else synthesized the answer and give it to me
+
+216
+00:12:48,767 --> 00:12:54,655
+Utility functions I would describe this as there's a large set of things for which
+
+217
+00:12:54,911 --> 00:13:01,055
+Human beings can do them if only or computers could do them if only they had access to language computation
+
+218
+00:13:01,311 --> 00:13:02,847
+An example of this would be
+
+219
+00:13:03,103 --> 00:13:06,175
+Read every tweet on Twitter tell me the ones I should read
+
+220
+00:13:06,431 --> 00:13:10,271
+That way I only get to read the ones that actually makes sense to me and I don't have to skim through the rest
+
+221
+00:13:10,783 --> 00:13:11,551
+Creativity
+
+222
+00:13:11,807 --> 00:13:15,647
+Image generation text generation storytelling proposing other ways to do things
+
+223
+00:13:16,159 --> 00:13:19,487
+And then these wild experiments and kind of baby AGI
+
+224
+00:13:21,023 --> 00:13:26,911
+In which the AI itself decides what to do in a self-directed so I'll show you examples of many of these and what the code looks like
+
+225
+00:13:27,167 --> 00:13:31,263
+And if I were you I would think about these as categories within which
+
+226
+00:13:31,519 --> 00:13:33,823
+To both think about what you might build
+
+227
+00:13:34,079 --> 00:13:35,871
+And then also seek out
+
+228
+00:13:36,127 --> 00:13:38,687
+Start a projects for how you might go about building them
+
+229
+00:13:38,943 --> 00:13:39,455
+Online
+
+230
+00:13:42,271 --> 00:13:48,159
+All right so I'm just going to dive straight into demos and code for some of these cuz I know that's what's interesting to see as fellow builders
+
+231
+00:13:48,415 --> 00:13:51,231
+With the high level diagram for some of these is to how it works
+
+232
+00:13:51,487 --> 00:13:56,863
+So approximately you can think of a companionship bot as a friend that has a purpose to you
+
+233
+00:13:57,375 --> 00:14:03,519
+And there are many ways to build all of these things but one of the ways you can build this is simply to wrap GPT
+
+234
+00:14:03,775 --> 00:14:04,287
+What language model
+
+235
+00:14:04,543 --> 00:14:07,615
+In an endpoint that additionally injection to the prompt
+
+236
+00:14:07,871 --> 00:14:11,711
+Some particular perspective or some particular goal that you want to use
+
+237
+00:14:11,967 --> 00:14:16,319
+It really is that easy in a way but it's also very hard because you need to iterate
+
+238
+00:14:16,575 --> 00:14:17,855
+Engineer the prompt
+
+239
+00:14:18,111 --> 00:14:20,159
+Consistently performs the way
+
+240
+00:14:20,415 --> 00:14:21,439
+You want it to perform
+
+241
+00:14:21,695 --> 00:14:27,839
+So a good example of this is something somebody built into hackathon yesterday and I just wanted to show you the project that they built it was
+
+242
+00:14:28,095 --> 00:14:29,375
+It was a mandarin idiom coach
+
+243
+00:14:29,631 --> 00:14:32,703
+And I'll show you what the code look like first I'll show you the Demo First
+
+244
+00:14:33,727 --> 00:14:34,751
+I think I already pulled it up
+
+245
+00:14:38,079 --> 00:14:38,591
+Here we go
+
+246
+00:14:38,847 --> 00:14:40,127
+So
+
+247
+00:14:40,639 --> 00:14:44,223
+The buddy that this person wanted to create was a friend that if you
+
+248
+00:14:44,735 --> 00:14:47,807
+Gave it a particular problem you were having
+
+249
+00:14:48,063 --> 00:14:51,135
+It would pick a Chinese idiom a four character chunk
+
+250
+00:14:51,391 --> 00:14:57,535
+That describe poetically like here's a particular way you could say this and it would tell it to her so that the
+
+251
+00:14:57,791 --> 00:15:03,935
+The person who built this was studying Chinese and she wanted to learn more about it so I might say something like I'm feeling
+
+252
+00:15:05,727 --> 00:15:06,495
+Very sad
+
+253
+00:15:11,359 --> 00:15:12,383
+If everything's up and running
+
+254
+00:15:12,639 --> 00:15:13,407
+It will
+
+255
+00:15:13,663 --> 00:15:16,223
+Generate one of these four character phrases
+
+256
+00:15:16,479 --> 00:15:18,015
+And it will respond to it
+
+257
+00:15:18,271 --> 00:15:24,159
+With an example now I don't know if this is correct or not so if somebody can call me out if this is actually incorrect you please please please
+
+258
+00:15:24,415 --> 00:15:24,927
+Call me
+
+259
+00:15:25,951 --> 00:15:32,095
+And it will then finish up with something encouraging say Hey you can do it I know this is hard keep going so let me show you how they built this
+
+260
+00:15:32,351 --> 00:15:33,375
+Yes and I
+
+261
+00:15:34,399 --> 00:15:35,167
+Pulled up
+
+262
+00:15:35,679 --> 00:15:36,447
+The code
+
+263
+00:15:39,263 --> 00:15:40,031
+Right here
+
+264
+00:15:40,543 --> 00:15:41,823
+So this was the
+
+265
+00:15:42,335 --> 00:15:44,639
+Particular starter replit
+
+266
+00:15:44,895 --> 00:15:47,199
+In the hackathon yesterday
+
+267
+00:15:47,455 --> 00:15:52,063
+You have a wrapper around GPT
+
+268
+00:15:52,575 --> 00:15:56,927
+And there's many things you could do but we're going to make it easy for you to do two things one of them
+
+269
+00:15:57,183 --> 00:15:58,975
+Is to inject some personality into the prom
+
+270
+00:16:02,559 --> 00:16:06,399
+And then the second is ADD tools that might go out and do a particular thing search the web
+
+271
+00:16:06,655 --> 00:16:11,263
+Or generate an image or add something to a database or fetch something from a database
+
+272
+00:16:11,775 --> 00:16:12,799
+So having done that
+
+273
+00:16:13,055 --> 00:16:18,687
+Now you have something more than GPT now you have GPT which we all know what it is and how we can interact with it
+
+274
+00:16:18,943 --> 00:16:25,087
+Added a particular lens through which it's talking to you and potentially some tools so this particular
+
+275
+00:16:25,343 --> 00:16:26,367
+Chinese tutor
+
+276
+00:16:27,135 --> 00:16:29,183
+All it took to build that was
+
+277
+00:16:29,439 --> 00:16:29,951
+Lines
+
+278
+00:16:30,207 --> 00:16:31,999
+So here's the question that I think is
+
+279
+00:16:32,255 --> 00:16:34,559
+Is frying the minds of everybody in the industry right now
+
+280
+00:16:35,583 --> 00:16:41,727
+So is this something that will all do casually and nobody really knows will we just all say in the future to the llm hey for the next
+
+281
+00:16:41,983 --> 00:16:44,031
+Next 5 minutes please talk like a teacher and maybe
+
+282
+00:16:45,055 --> 00:16:49,407
+But also definitely in the meantime and maybe in the future it makes sense to wrap up
+
+283
+00:16:49,663 --> 00:16:55,807
+I'm not just talking to GPT I have a whole Army of different buddies of different
+
+284
+00:16:56,319 --> 00:17:00,415
+Companions that I can talk to they're kind of human and kind of talk to me interactively
+
+285
+00:17:00,671 --> 00:17:04,767
+But because I preloaded them with hey by the way you particular
+
+286
+00:17:05,023 --> 00:17:09,887
+I want you to be kind helpful Chinese teacher that responds to every situation by explaining the chunk of its it
+
+287
+00:17:10,399 --> 00:17:12,447
+Speak in English and explain the children in its meaning
+
+288
+00:17:12,703 --> 00:17:15,519
+Then provide a note of encouragement about learning language
+
+289
+00:17:15,775 --> 00:17:17,567
+It's just adding something like that
+
+290
+00:17:18,079 --> 00:17:19,359
+Even if you're not programmer
+
+291
+00:17:19,871 --> 00:17:21,407
+You can just type deploy
+
+292
+00:17:24,223 --> 00:17:25,759
+And it'll pop it up to the web
+
+293
+00:17:26,271 --> 00:17:30,111
+It'll take it over to a telegram bot then you can even interact with hey
+
+294
+00:17:30,367 --> 00:17:31,903
+I'm feeling too busy
+
+295
+00:17:33,183 --> 00:17:38,303
+And interact with it over telegram over the web and this is the kind of thing that's now Within Reach
+
+296
+00:17:38,559 --> 00:17:43,679
+For everybody from cs101 grad sorry I'm using the general purpose framing
+
+297
+00:17:43,935 --> 00:17:50,079
+All the way through to Professionals in the industry that you can do just with a little bit of manipulation on top of
+
+298
+00:17:51,871 --> 00:17:54,431
+Conversation and intelligence
+
+299
+00:17:56,991 --> 00:17:58,015
+So companionship
+
+300
+00:17:58,783 --> 00:18:00,831
+Is is one of the first Common
+
+301
+00:18:01,087 --> 00:18:02,623
+Types of apps that we're seeing
+
+302
+00:18:06,463 --> 00:18:10,303
+Kind of app that we're seeing and this blew up if for those of you who are on
+
+303
+00:18:11,071 --> 00:18:12,351
+Kind of Twitter followers
+
+304
+00:18:12,863 --> 00:18:13,631
+This blew up
+
+305
+00:18:13,887 --> 00:18:15,167
+I think the last few months
+
+306
+00:18:15,679 --> 00:18:19,263
+Is question answering I want to unpack a couple of different ways this can work
+
+307
+00:18:19,519 --> 00:18:21,567
+Because I know many of you have probably already
+
+308
+00:18:21,823 --> 00:18:22,591
+I tried to build
+
+309
+00:18:22,847 --> 00:18:25,151
+Some of these kinds of apps there's a couple of different ways that it works
+
+310
+00:18:25,407 --> 00:18:26,687
+The general framework is
+
+311
+00:18:27,455 --> 00:18:32,575
+A user queries GPT and maybe it has general purpose knowledge maybe it doesn't have general purpose knowledge
+
+312
+00:18:33,087 --> 00:18:34,367
+But what you wanted to say
+
+313
+00:18:34,623 --> 00:18:35,391
+Play back to you
+
+314
+00:18:35,903 --> 00:18:38,207
+Is something specific about an article you wrote
+
+315
+00:18:38,463 --> 00:18:39,999
+Or something specific about
+
+316
+00:18:43,071 --> 00:18:46,399
+A particular set of documents from the United Nations on a particular topic
+
+317
+00:18:46,911 --> 00:18:52,287
+We've all interacted with these customer service spots
+
+318
+00:18:52,543 --> 00:18:55,359
+What kind of Smashing our heads on the keyboard as we do it
+
+319
+00:18:56,639 --> 00:19:01,247
+Pretty soon we're going to start to see very high fidelity Bots that interact with this comfortably
+
+320
+00:19:01,503 --> 00:19:05,599
+And this is approximately how to do it as an engineer so here's your game plan as an engineer
+
+321
+00:19:05,855 --> 00:19:06,623
+Step one
+
+322
+00:19:07,135 --> 00:19:08,415
+Take the documents
+
+323
+00:19:08,671 --> 00:19:10,463
+Do you want it to respond to
+
+324
+00:19:11,743 --> 00:19:12,511
+Step two
+
+325
+00:19:12,767 --> 00:19:14,047
+Cut them up now
+
+326
+00:19:18,399 --> 00:19:19,167
+For example
+
+327
+00:19:19,423 --> 00:19:22,239
+You could cut them up into clean sentences or clean paragraphs
+
+328
+00:19:22,495 --> 00:19:24,287
+Or semantically coherent
+
+329
+00:19:26,079 --> 00:19:31,455
+Honestly the way that most folks do it and this is a simplification that turns out tends to be just fine
+
+330
+00:19:31,967 --> 00:19:35,551
+Is you window you have a sliding window that goes over the document
+
+331
+00:19:35,807 --> 00:19:38,111
+And you just pull out fragments of text
+
+332
+00:19:38,879 --> 00:19:43,999
+Having pulled out those fragments of text you turn them into something called an embedding Vector it's an embedding vector
+
+333
+00:19:44,255 --> 00:19:45,535
+Is a list of numbers
+
+334
+00:19:46,047 --> 00:19:48,351
+That approximate some point of meaning
+
+335
+00:19:49,119 --> 00:19:55,263
+So you've already all dealt with embedding vectors yourself and regular life and the reason you have and I know you have is because everybody's order
+
+336
+00:19:55,519 --> 00:19:56,799
+Ordered food from Yelp before
+
+337
+00:19:58,335 --> 00:19:59,103
+You look at
+
+338
+00:19:59,615 --> 00:20:04,991
+What genre of restaurant is it is it in a pizza restaurant is it an Italian restaurant is it a Korean barbecue place
+
+339
+00:20:05,503 --> 00:20:08,063
+How many stars does it have one two three four five
+
+340
+00:20:08,831 --> 00:20:14,975
+You look at where is it so all of these you can think of as points in space dimensions in space Korean barbecue
+
+341
+00:20:15,231 --> 00:20:15,999
+Four stars
+
+342
+00:20:16,255 --> 00:20:16,767
+Near my house
+
+343
+00:20:17,023 --> 00:20:17,791
+It's a
+
+344
+00:20:19,071 --> 00:20:19,839
+Three number vect
+
+345
+00:20:20,607 --> 00:20:21,375
+That's all this
+
+346
+00:20:21,631 --> 00:20:26,495
+So this is a thousand number of vector or 10,000 number Vector different models produce different sized vectors
+
+347
+00:20:27,007 --> 00:20:27,775
+All it is
+
+348
+00:20:28,031 --> 00:20:29,567
+Is chunking pieces of text
+
+349
+00:20:30,079 --> 00:20:36,223
+Turning it into a vector that approximates meaning and then you put it in something called the vector database and a vector database is just a database
+
+350
+00:20:36,479 --> 00:20:37,247
+Pet stores numbers
+
+351
+00:20:38,527 --> 00:20:39,807
+But having that database
+
+352
+00:20:40,063 --> 00:20:41,599
+Now when I ask a question
+
+353
+00:20:42,367 --> 00:20:46,463
+I can search the database and I can say hey the question was what does cs50 teach
+
+354
+00:20:47,231 --> 00:20:48,511
+What pieces of text
+
+355
+00:20:49,023 --> 00:20:49,791
+In the database
+
+356
+00:20:50,559 --> 00:20:52,095
+Have vectors similar
+
+357
+00:20:52,351 --> 00:20:53,375
+To the question
+
+358
+00:20:54,143 --> 00:20:55,423
+What does cs50 teach
+
+359
+00:20:55,935 --> 00:21:01,055
+And there's all sorts of tricks and Empires being made on refinements of this General approach
+
+360
+00:21:01,567 --> 00:21:03,359
+But at the end you the developer
+
+361
+00:21:03,871 --> 00:21:05,663
+Model it simply as thus
+
+362
+00:21:06,175 --> 00:21:08,223
+And then when you have your query you embed it
+
+363
+00:21:08,735 --> 00:21:14,623
+You find the document fragments and then you put them into a prompt and now we're just back to the personality of the
+
+364
+00:21:15,135 --> 00:21:15,903
+Companionship
+
+365
+00:21:16,416 --> 00:21:17,440
+Now it's just a prompt
+
+366
+00:21:17,696 --> 00:21:20,256
+You're an expert in answering questions
+
+367
+00:21:20,768 --> 00:21:21,792
+Please answer
+
+368
+00:21:22,304 --> 00:21:23,584
+User provided question
+
+369
+00:21:23,840 --> 00:21:25,376
+Using Source documents
+
+370
+00:21:25,888 --> 00:21:26,912
+Results from the database
+
+371
+00:21:27,168 --> 00:21:27,680
+That's it
+
+372
+00:21:28,704 --> 00:21:33,824
+So after all of these Decades of engineering to these customer service spots it turns out with a couple of lines of code you can build
+
+373
+00:21:36,640 --> 00:21:39,712
+With the cs50 syllabus so we can
+
+374
+00:21:40,736 --> 00:21:41,248
+Pull that up
+
+375
+00:21:43,552 --> 00:21:46,624
+I added the PDF right here
+
+376
+00:21:46,880 --> 00:21:53,024
+Search the web for cs50 syllabus
+
+377
+00:21:53,280 --> 00:21:55,072
+What does PDF I put the URL in here
+
+378
+00:21:55,328 --> 00:21:59,680
+Piece of code deployed
+
+379
+00:21:59,936 --> 00:22:05,312
+That will now let me talk to it and I can say what will cs50 teach me
+
+380
+00:22:07,616 --> 00:22:12,736
+What's happening is exactly what that slide just showed you it takes that question what will cs50 teach me
+
+381
+00:22:13,248 --> 00:22:14,528
+It turns it into a vector
+
+382
+00:22:15,040 --> 00:22:18,368
+That Vector approximates without exactly representing
+
+383
+00:22:18,880 --> 00:22:20,672
+The meaning of that question
+
+384
+00:22:20,928 --> 00:22:22,976
+It looks into a vector database
+
+385
+00:22:23,488 --> 00:22:24,256
+Did steamship host
+
+386
+00:22:24,768 --> 00:22:26,560
+Fragments from that PDF
+
+387
+00:22:27,584 --> 00:22:31,168
+And then it pulls out a document and then passes it to a prompt that says
+
+388
+00:22:32,192 --> 00:22:33,984
+You're an expert at answering questions
+
+389
+00:22:34,496 --> 00:22:36,544
+Someone has asked you what does cs50 teach
+
+390
+00:22:37,056 --> 00:22:43,200
+Please answer it using only the source documents and Source materials I've provided now those Source materials Mater
+
+391
+00:22:43,456 --> 00:22:48,832
+Materials are dynamically loaded into the problem it's just basic prompt engineering and I want to keep harping back on to that
+
+392
+00:22:49,088 --> 00:22:51,392
+What's amazing about right now is builders
+
+393
+00:22:51,648 --> 00:22:55,744
+Is that so many things just boil down to very creative
+
+394
+00:22:56,000 --> 00:22:56,768
+Tactical
+
+395
+00:22:57,536 --> 00:22:59,072
+Rearrangement of prompts
+
+396
+00:22:59,328 --> 00:23:05,472
+And then using those over and over again in an algorithm and putting that into software so the result and again it could be lying it could be
+
+397
+00:23:05,728 --> 00:23:07,008
+Will you be making things up it could be hallucinating
+
+398
+00:23:07,264 --> 00:23:12,896
+Is cs50 will teach students how to think algorithmically and solve problems efficiently focusing on topics such as abstraction dot dot dot
+
+399
+00:23:13,408 --> 00:23:15,200
+And then it Returns the source document
+
+400
+00:23:16,480 --> 00:23:18,272
+So this is another big category
+
+401
+00:23:18,528 --> 00:23:20,064
+Of which there are tons
+
+402
+00:23:20,320 --> 00:23:22,112
+Potential applications
+
+403
+00:23:22,624 --> 00:23:28,768
+You can create arbitrarily many of these once its software because once its software
+
+404
+00:23:29,280 --> 00:23:30,304
+You can just repeat it
+
+405
+00:23:30,816 --> 00:23:32,864
+Over and over again so for your dorm for your Club
+
+406
+00:23:33,376 --> 00:23:33,888
+For your
+
+407
+00:23:34,400 --> 00:23:35,424
+For your Telegram
+
+408
+00:23:35,680 --> 00:23:38,496
+You can start to begin putting pieces of information
+
+409
+00:23:38,752 --> 00:23:43,360
+In and then responding to it and it doesn't have to be documents you can also load it straight
+
+410
+00:23:43,872 --> 00:23:44,640
+Into the prompt
+
+411
+00:23:45,920 --> 00:23:47,200
+I think I have it pulled up here
+
+412
+00:23:47,712 --> 00:23:48,992
+And if I don't I'll just skip it
+
+413
+00:23:52,064 --> 00:23:54,368
+One other way you can do question answering
+
+414
+00:23:55,392 --> 00:23:59,488
+I think it's healthy to always encourage the simplest possible approach to something
+
+415
+00:24:00,512 --> 00:24:06,656
+You don't need to engineer this giant system it's great to have a database it's great to use embeddings it's great to use this big approach it's
+
+416
+00:24:06,912 --> 00:24:08,704
+Play Fancy at Scales you can do a lot of things
+
+417
+00:24:09,216 --> 00:24:11,776
+But you can also get away with a lot
+
+418
+00:24:12,032 --> 00:24:13,568
+By just pushing it all into a prompt
+
+419
+00:24:13,824 --> 00:24:19,968
+Aspire to be lazy and I couldn't agree more
+
+420
+00:24:20,736 --> 00:24:25,600
+You as an engineer should want to set yourself up so that you can pursue the lazy path
+
+421
+00:24:25,856 --> 00:24:26,368
+Do something
+
+422
+00:24:27,392 --> 00:24:29,696
+So here's how you might do
+
+423
+00:24:29,952 --> 00:24:33,536
+The equivalent of a question answering system with a prompt alone let's say you have
+
+424
+00:24:33,792 --> 00:24:34,560
+30 friends
+
+425
+00:24:35,072 --> 00:24:37,888
+In each friend is good at a particular thing or you can you know
+
+426
+00:24:38,144 --> 00:24:39,936
+Is isomorphic too many other problems
+
+427
+00:24:40,448 --> 00:24:42,752
+You can simply just say hey I know certain things
+
+428
+00:24:44,544 --> 00:24:46,080
+Are users going to ask me something
+
+429
+00:24:47,360 --> 00:24:48,128
+How should we respond
+
+430
+00:24:49,152 --> 00:24:50,432
+And then you load that into an agent
+
+431
+00:24:50,688 --> 00:24:52,480
+That agent has access to GPT
+
+432
+00:24:53,248 --> 00:24:54,528
+You can ship deploy it
+
+433
+00:24:54,784 --> 00:24:58,624
+And now you've got a bot that you can connect to telegram you can connect to Slack
+
+434
+00:24:59,136 --> 00:25:00,416
+And that part
+
+435
+00:25:00,672 --> 00:25:05,792
+The variance of the model underneath
+
+436
+00:25:07,584 --> 00:25:12,704
+It will tend to answer with respect to this list and and the degree to which it tends to is to a certain extent
+
+437
+00:25:12,960 --> 00:25:15,264
+Something that both Industries working on to
+
+438
+00:25:15,520 --> 00:25:17,312
+Give everybody as a capacity
+
+439
+00:25:17,568 --> 00:25:20,384
+But also you doing prompt engineering to tighten up
+
+440
+00:25:20,896 --> 00:25:22,432
+The air bars
+
+441
+00:25:26,784 --> 00:25:28,320
+Just a few more examples
+
+442
+00:25:28,576 --> 00:25:34,720
+And then in about 8 minutes I'll turn it over to questions cuz I'm sure you got a lot about how to build things so just to give you
+
+443
+00:25:35,232 --> 00:25:36,768
+A sense of where we are
+
+444
+00:25:40,864 --> 00:25:42,656
+This is when I don't have a demo for you
+
+445
+00:25:43,168 --> 00:25:45,472
+But if you were to come to me and you were to say Ted
+
+446
+00:25:46,496 --> 00:25:47,776
+I want a weekend Hustle Man
+
+447
+00:25:48,032 --> 00:25:49,056
+What should I build
+
+448
+00:25:49,568 --> 00:25:50,336
+Holy Mol
+
+449
+00:25:51,104 --> 00:25:55,968
+There are a set of applications that I would describe as utility functions I don't like that name
+
+450
+00:25:56,224 --> 00:25:58,528
+Because it doesn't sound exciting and this is really exciting
+
+451
+00:25:59,808 --> 00:26:02,112
+Fruits that automate tasks
+
+452
+00:26:02,368 --> 00:26:05,696
+The required basic language understanding so examples for this are
+
+453
+00:26:06,208 --> 00:26:07,232
+Generate a unit test
+
+454
+00:26:08,000 --> 00:26:09,280
+I don't know how many of you
+
+455
+00:26:09,536 --> 00:26:11,840
+Have you ever been writing tests and you're just like oh come on
+
+456
+00:26:12,096 --> 00:26:13,120
+I can get through this
+
+457
+00:26:13,376 --> 00:26:15,936
+You're lucky individual
+
+458
+00:26:16,704 --> 00:26:22,848
+Looking up the documentation for a function rewriting a function making something conform to your company guidelines doing a brand check
+
+459
+00:26:23,360 --> 00:26:25,152
+All of these things are things that
+
+460
+00:26:25,408 --> 00:26:25,920
+Are kind of
+
+461
+00:26:26,688 --> 00:26:32,832
+Relatively context-free operations or scoped context operations on a piece of information
+
+462
+00:26:33,088 --> 00:26:34,624
+Information that requires linguistic understanding
+
+463
+00:26:37,184 --> 00:26:43,328
+Really you can think of them as something that is now available to you as a software Builder as a weekend project
+
+464
+00:26:43,584 --> 00:26:45,376
+Builder as a startup Builder
+
+465
+00:26:46,144 --> 00:26:48,448
+And you just have to build the interface around it
+
+466
+00:26:49,728 --> 00:26:53,312
+Presented to other people in a context in which its meaningful them for them to consume
+
+467
+00:26:54,080 --> 00:26:55,872
+And so the space of this
+
+468
+00:26:56,384 --> 00:26:58,944
+Is extraordinary I mean is the space of all human endeavor
+
+469
+00:26:59,200 --> 00:27:03,296
+Now with this new tool I think is the way to way to think about it people often joke about how
+
+470
+00:27:03,552 --> 00:27:07,136
+You don't want to start with a hammer
+
+471
+00:27:07,392 --> 00:27:09,184
+Because you want you want to start with the problem instead
+
+472
+00:27:09,440 --> 00:27:11,488
+And it's generally true but my God
+
+473
+00:27:11,744 --> 00:27:13,536
+We just got a really cool new hammer
+
+474
+00:27:13,792 --> 00:27:18,912
+And to a certain extent I would encourage you to at least casually on the weekends run around and hit stuff with it and see
+
+475
+00:27:19,168 --> 00:27:22,496
+What can happen from a builder's from a Tinkers from an experimental
+
+476
+00:27:23,264 --> 00:27:23,776
+Point of view
+
+477
+00:27:30,176 --> 00:27:32,480
+Creativity this is another huge mega app
+
+478
+00:27:32,736 --> 00:27:37,600
+No I'm primarily living the text world and so I'm going to talk about text-based things
+
+479
+00:27:37,856 --> 00:27:44,000
+I think so far this is mostly been growing in the imagery world because we're such visual creatures
+
+480
+00:27:44,256 --> 00:27:46,560
+Please and the images you can generate or just staggering
+
+481
+00:27:48,352 --> 00:27:51,936
+I certainly brings up a lot of questions to around IP and artistic style
+
+482
+00:27:53,728 --> 00:27:59,616
+Is approximately the following and the thing I want to
+
+483
+00:27:59,872 --> 00:28:05,504
+This is really the purpose of this slide is to touch on the importance of the domain knowledge
+
+484
+00:28:06,784 --> 00:28:08,320
+So many people
+
+485
+00:28:09,600 --> 00:28:12,416
+Approximately find the creative process as follow
+
+486
+00:28:12,928 --> 00:28:13,952
+Come up with a big idea
+
+487
+00:28:15,488 --> 00:28:17,280
+Over generate possibilities
+
+488
+00:28:18,304 --> 00:28:19,328
+Edit it down
+
+489
+00:28:19,584 --> 00:28:20,608
+What you over generated
+
+490
+00:28:21,120 --> 00:28:21,632
+Repeat
+
+491
+00:28:22,400 --> 00:28:23,936
+Right like anybody who's been a writer
+
+492
+00:28:26,496 --> 00:28:27,776
+And then you have to delete lots of it
+
+493
+00:28:31,360 --> 00:28:36,224
+This particular task is fantastic for AI one of the reasons it's fantastic for AI
+
+494
+00:28:36,480 --> 00:28:42,624
+Is because it allows the eye to be wrong you know you've pre-agreed you're going to delete lots of it and so if you pre agree hey I'm just going to
+
+495
+00:28:42,880 --> 00:28:48,256
+Generate five possibilities of the story I might tell five possibilities of the advertising headline
+
+496
+00:28:48,512 --> 00:28:52,352
+Five possibilities of what am I what I might write my thesis on
+
+497
+00:28:52,608 --> 00:28:55,680
+You are going to be the editor
+
+498
+00:28:55,936 --> 00:28:56,704
+Did stepson
+
+499
+00:28:56,960 --> 00:29:02,848
+And here's the thing that you really should bring to the table is don't think about this as a technical activity think about this
+
+500
+00:29:03,104 --> 00:29:05,920
+Is your opportunity not to put GPT in charge
+
+501
+00:29:06,688 --> 00:29:09,504
+Instead for you to grasp the steering wheel tighter
+
+502
+00:29:10,016 --> 00:29:11,040
+I think at least
+
+503
+00:29:11,296 --> 00:29:14,112
+In python or the language you're using to program
+
+504
+00:29:14,368 --> 00:29:16,160
+Because you have the domain knowledge
+
+505
+00:29:16,416 --> 00:29:20,768
+To wheel GPT in the generation of those so let me show you an example of what I mean by that
+
+506
+00:29:22,304 --> 00:29:23,328
+This is a
+
+507
+00:29:23,584 --> 00:29:24,352
+A cool app
+
+508
+00:29:25,632 --> 00:29:28,960
+Someone created for the writing Atlas project is a set
+
+509
+00:29:29,216 --> 00:29:30,496
+Short stories
+
+510
+00:29:31,776 --> 00:29:34,848
+And you can think of it as Goodreads for short stories
+
+511
+00:29:35,360 --> 00:29:37,664
+So you can go in here you can browse different stories
+
+512
+00:29:37,920 --> 00:29:42,272
+You can type in a story description that you like
+
+513
+00:29:42,784 --> 00:29:46,112
+And this is going to take about a minute to generate so I'm going to talk while it's generating
+
+514
+00:29:53,024 --> 00:29:58,144
+Is it searching through the collection of stories for similar stories and here's where the domain knowledge part comes in
+
+515
+00:29:58,656 --> 00:29:59,936
+Then it uses GPT
+
+516
+00:30:00,192 --> 00:30:01,984
+To look at what it was that you wanted
+
+517
+00:30:02,496 --> 00:30:08,640
+And use knowledge of how an editor how a Bookseller thinks to generate a set of suggestions specific
+
+518
+00:30:08,896 --> 00:30:09,920
+Specifically through the lens
+
+519
+00:30:10,176 --> 00:30:16,320
+Of that perspective with the goal of writing that beautiful handwritten note that we sometimes see in a local bookstore
+
+520
+00:30:16,576 --> 00:30:17,344
+Back on underneath
+
+521
+00:30:19,392 --> 00:30:22,976
+And so it doesn't just say hey you might like this here's a general purpose
+
+522
+00:30:23,232 --> 00:30:25,792
+Reason why you might like this but specifically
+
+523
+00:30:26,048 --> 00:30:26,816
+Here's why
+
+524
+00:30:27,072 --> 00:30:28,864
+You might like this with respect to what you gave it
+
+525
+00:30:29,376 --> 00:30:30,912
+It's either stalling out
+
+526
+00:30:31,168 --> 00:30:33,216
+Or it's taking a long time oh there we go
+
+527
+00:30:34,496 --> 00:30:36,032
+So here's a suggestions
+
+528
+00:30:37,824 --> 00:30:42,176
+In particular these things these are things that only a human could know at least for now
+
+529
+00:30:43,456 --> 00:30:44,992
+Two humans specifically
+
+530
+00:30:45,248 --> 00:30:48,576
+The human who said they wanted to read a story that's the text that came in
+
+531
+00:30:48,832 --> 00:30:51,136
+And then the human who added domain knowledge
+
+532
+00:30:51,648 --> 00:30:55,232
+Descriptive sequence of interactions with the language model
+
+533
+00:30:55,488 --> 00:30:58,304
+So that you could provide very targeted reasoning
+
+534
+00:30:58,560 --> 00:31:01,120
+Over something that was informed by that domain knowledge
+
+535
+00:31:01,376 --> 00:31:02,656
+Utility
+
+536
+00:31:03,168 --> 00:31:05,216
+Apps bring your bring your domain knowledge
+
+537
+00:31:10,848 --> 00:31:15,456
+Looks and code cuz I think it's it's it's useful to see how simple and accessible this is
+
+538
+00:31:15,712 --> 00:31:16,736
+This is really
+
+539
+00:31:20,320 --> 00:31:21,856
+Like a particular location
+
+540
+00:31:22,112 --> 00:31:24,672
+Well here's the prompt that did that is an open source project
+
+541
+00:31:29,280 --> 00:31:30,048
+Interested in
+
+542
+00:31:31,072 --> 00:31:36,960
+Here's the audience here's a couple of examples of why might people like a particular thing in terms of audience it's just another prompt
+
+543
+00:31:44,640 --> 00:31:46,944
+And if you go down here and look at how it was done
+
+544
+00:31:49,248 --> 00:31:55,392
+Suggesting the story is what is this line 174 to line 203 it really is and and again
+
+545
+00:31:58,976 --> 00:32:00,000
+It's really just
+
+546
+00:32:01,024 --> 00:32:03,328
+What 20 outlines of Step 1
+
+547
+00:32:03,584 --> 00:32:06,144
+Search in the database for similar stories
+
+548
+00:32:06,400 --> 00:32:07,424
+Step two
+
+549
+00:32:07,680 --> 00:32:10,752
+Given that I have similar stories pull out the data
+
+550
+00:32:11,008 --> 00:32:12,032
+Step 3
+
+551
+00:32:12,288 --> 00:32:14,848
+With my domain knowledge in Python
+
+552
+00:32:15,104 --> 00:32:16,640
+Now run these prompts
+
+553
+00:32:16,896 --> 00:32:20,736
+Step four prepare that into an output so the thing we're scripting itself
+
+554
+00:32:21,248 --> 00:32:22,784
+Is some approximation of
+
+555
+00:32:23,040 --> 00:32:24,064
+Is human cognition
+
+556
+00:32:24,576 --> 00:32:30,720
+If you're willing to go there metaphorically we're not you know we're not sure I'm not going to weigh in on where we are on the is openai
+
+557
+00:32:32,512 --> 00:32:33,280
+A life form
+
+558
+00:32:34,304 --> 00:32:34,816
+Argument
+
+559
+00:32:36,096 --> 00:32:40,960
+All right one kind of really far out there thing and then I'll
+
+560
+00:32:41,216 --> 00:32:44,800
+Tied up for questions cuz I know there's probably a lot and I also want to make sure you get
+
+561
+00:32:45,056 --> 00:32:47,104
+Great pizza in your bellies
+
+562
+00:32:47,360 --> 00:32:49,920
+And that is a baby AGI
+
+563
+00:32:50,944 --> 00:32:57,088
+Auto GPT is what you might have heard them called on Twitter I think of them as multi-step planning bots so everything I showed
+
+564
+00:32:57,344 --> 00:32:57,856
+Why are you so far
+
+565
+00:32:58,112 --> 00:33:01,952
+Was approximately one shot interactions with GPT
+
+566
+00:33:02,464 --> 00:33:04,768
+So this is the user says they want something
+
+567
+00:33:05,280 --> 00:33:08,608
+And then either python mediates interactions with GPT
+
+568
+00:33:09,888 --> 00:33:10,912
+GPT itself
+
+569
+00:33:11,168 --> 00:33:15,520
+Does some things with the inflection of a personality that you've added from some prompt engineering
+
+570
+00:33:16,288 --> 00:33:17,312
+Really useful
+
+571
+00:33:17,824 --> 00:33:23,968
+Pretty easy to control if you want to go to production if you want to build a weekend project if you want to build a company that's a great way to do it
+
+572
+00:33:24,480 --> 00:33:24,992
+Right now
+
+573
+00:33:26,272 --> 00:33:31,904
+This is wild and if you haven't seen this stuff on Twitter I would definitely recommend going to search for it
+
+574
+00:33:32,160 --> 00:33:33,440
+This is what happens
+
+575
+00:33:35,488 --> 00:33:37,536
+If you put GPT in a for Loop
+
+576
+00:33:37,792 --> 00:33:41,120
+If you let GPT talk to itself and then tell itself what to do
+
+577
+00:33:44,448 --> 00:33:45,984
+It's an emergent Behavior
+
+578
+00:33:46,240 --> 00:33:50,592
+It starts with a few simple steps the Conway's Game of Life
+
+579
+00:33:52,384 --> 00:33:56,224
+Elements of reality turn out to be math equations that fit on a t-shirt
+
+580
+00:34:02,368 --> 00:34:03,904
+This is approximately
+
+581
+00:34:04,416 --> 00:34:06,464
+Step one take a human objective
+
+582
+00:34:07,232 --> 00:34:08,000
+Step two
+
+583
+00:34:08,256 --> 00:34:09,024
+Your first task
+
+584
+00:34:09,280 --> 00:34:12,096
+Is to write yourself a list of steps and here's the critical part
+
+585
+00:34:12,608 --> 00:34:13,120
+Repeat
+
+586
+00:34:14,144 --> 00:34:20,288
+Now do the list of steps now you have to embody your agent with the ability to do things so it's really
+
+587
+00:34:20,544 --> 00:34:22,848
+You're the only limited to do what you give it the tools to do
+
+588
+00:34:23,104 --> 00:34:24,384
+And what has the skills to do
+
+589
+00:34:24,640 --> 00:34:26,944
+So obviously this is still very much
+
+590
+00:34:27,200 --> 00:34:33,344
+A set of experiments that are running right now and and but it's something that will see unfold over the coming years and this is the scenario in which
+
+591
+00:34:33,600 --> 00:34:37,952
+Play python stops becoming so important because we've given it the ability to actually self-direct
+
+592
+00:34:38,208 --> 00:34:38,976
+What it's doing
+
+593
+00:34:39,232 --> 00:34:40,512
+And then it finally gives you
+
+594
+00:34:40,768 --> 00:34:46,656
+Engineering which is wild
+
+595
+00:34:46,912 --> 00:34:48,960
+How little code this is let me show you what
+
+596
+00:34:50,752 --> 00:34:52,032
+Baby AGI looks like
+
+597
+00:34:53,568 --> 00:34:54,848
+So here is
+
+598
+00:34:55,104 --> 00:34:57,664
+Baby AGI that you can connect to Telegram
+
+599
+00:35:01,248 --> 00:35:07,392
+And this is an agent that has two tools so I haven't explained to you what an agent is I haven't explained to you what tools are I'll give you
+
+600
+00:35:07,648 --> 00:35:09,440
+Give me a quick one sentence description in agent
+
+601
+00:35:09,696 --> 00:35:10,976
+Is just a word to mean
+
+602
+00:35:11,232 --> 00:35:12,000
+GPT
+
+603
+00:35:12,256 --> 00:35:18,400
+Plus some bigger body in which it's living maybe that body has a personality maybe has tools maybe it has python mediating
+
+604
+00:35:18,656 --> 00:35:19,168
+Kids experience with other
+
+605
+00:35:19,936 --> 00:35:21,216
+Tools are simply
+
+606
+00:35:21,472 --> 00:35:26,080
+Ways in which the agent can choose to do things like imagine if GPT could say order a pizza
+
+607
+00:35:26,592 --> 00:35:30,688
+And instead of you seeing the text order a pizza that caused the pizza to be ordered that's a tool
+
+608
+00:35:31,968 --> 00:35:36,320
+To-do list one tool is
+
+609
+00:35:36,832 --> 00:35:38,112
+Do a search on the web
+
+610
+00:35:42,208 --> 00:35:43,488
+And then down here
+
+611
+00:35:44,256 --> 00:35:49,632
+It has a prompt saying hey your goal is to build a task list and then do that task list
+
+612
+00:35:50,144 --> 00:35:52,192
+And then this is just placed into a harness
+
+613
+00:35:52,448 --> 00:35:54,752
+It does it over and over again so after the next task
+
+614
+00:35:55,008 --> 00:35:57,056
+Turn on cue the results of that task
+
+615
+00:35:57,312 --> 00:35:58,080
+And keep it going
+
+616
+00:36:00,128 --> 00:36:01,664
+You get this kickstarted Loop
+
+617
+00:36:01,920 --> 00:36:03,712
+We're essentially you Kickstart it
+
+618
+00:36:03,968 --> 00:36:05,504
+And then the agent is talking to itself
+
+619
+00:36:05,760 --> 00:36:06,528
+Stop talking to yourself
+
+620
+00:36:07,296 --> 00:36:13,440
+So this unless I'm wrong I don't think this is yet reached production in terms of what we're seeing in the field of how people are deploying
+
+621
+00:36:13,696 --> 00:36:14,208
+Keep playing software
+
+622
+00:36:14,464 --> 00:36:19,840
+But if you want to dive into sort of the wildest part of experimentation this is definitely one of the places you can start
+
+623
+00:36:21,888 --> 00:36:22,656
+All you have to do
+
+624
+00:36:22,912 --> 00:36:25,216
+Is download one of the starter projects for it
+
+625
+00:36:25,728 --> 00:36:29,056
+And you can kind of see right in the prompting here's how you kick start that process
+
+626
+00:36:30,336 --> 00:36:30,848
+Obliteration
+
+627
+00:36:37,760 --> 00:36:39,552
+All right so I know that was super high level
+
+628
+00:36:40,064 --> 00:36:41,344
+I hope it was useful
+
+629
+00:36:41,600 --> 00:36:47,744
+I think from the field from the bottoms up what we're seeing and what people are building and the high level categories
+
+630
+00:36:48,000 --> 00:36:49,792
+Of apps that people are making
+
+631
+00:36:50,048 --> 00:36:54,144
+All of these apps are apps that are within reach to everybody which is really really exciting
+
+632
+00:36:54,656 --> 00:36:59,008
+And there's a I suggest Twitter is a great place to hang out and build things
+
+633
+00:36:59,520 --> 00:37:02,336
+There's a lot of AI builders on Twitter publishing
+
+634
+00:37:02,592 --> 00:37:07,200
+And if I think we got a couple minutes before Pizza is arriving maybe 10 minutes keep on going
+
+635
+00:37:10,272 --> 00:37:11,808
+Kick it to that cuz I'm sure there's some
+
+636
+00:37:12,320 --> 00:37:14,624
+Questions that you all have I guess I need a little early
+
+637
+00:37:49,184 --> 00:37:55,072
+The question was how is approximately how do you manage the hallucination problem if you give it a physics
+
+638
+00:37:55,328 --> 00:37:57,376
+Lecture and you ask it a question
+
+639
+00:37:57,632 --> 00:38:00,448
+On the one hand it appears to be answering you correctly
+
+640
+00:38:00,704 --> 00:38:04,288
+On the other hand it appears to be wrong to an expert's i
+
+641
+00:38:04,544 --> 00:38:07,104
+40% of the time 70 of the time 10 of the time
+
+642
+00:38:07,360 --> 00:38:08,128
+It's a huge problem
+
+643
+00:38:08,384 --> 00:38:12,480
+And then what are some ways is developers practically you can use to mitigate that
+
+644
+00:38:12,736 --> 00:38:16,576
+I'll get an answer so you may have some specific things too so one high level answer is
+
+645
+00:38:16,832 --> 00:38:22,976
+The same thing that makes these things capable of synthesizing information is part of the reason why it hallucinates for you so it's hard to have
+
+646
+00:38:23,232 --> 00:38:24,768
+Have your cake and eat it too to a certain extent
+
+647
+00:38:25,280 --> 00:38:27,840
+So this is part of the game in fact humans do it too
+
+648
+00:38:28,096 --> 00:38:34,240
+Make people talk about you know just folks who kind of are too aggressive in their assumptions about knowledge I can't remember the name for
+
+649
+00:38:38,080 --> 00:38:40,384
+Some things you can do
+
+650
+00:38:40,896 --> 00:38:46,784
+Are kind of a range of activities depending on how much money you're willing to spend how much technical expertise you have that can range from fine-tuning a model
+
+651
+00:38:47,040 --> 00:38:53,184
+To practically I'm in the applied world so I'm very much in the world of duct tape and sort of how developers get stuff done so
+
+652
+00:38:56,000 --> 00:38:57,280
+Giving an example
+
+653
+00:38:57,536 --> 00:39:00,352
+Tends to work for a cute things if it's behaving in wild ways
+
+654
+00:39:00,608 --> 00:39:01,888
+Is the more examples you give it
+
+655
+00:39:02,144 --> 00:39:05,728
+That's not going to solve the domain of all of physics
+
+656
+00:39:05,984 --> 00:39:12,128
+So for the domain of all the physics I'm going to I'm going to bail and give it to you cuz I think you are far more equipped than me to speak on that sure so
+
+657
+00:39:12,384 --> 00:39:13,408
+The bottle doesn't have
+
+658
+00:39:13,664 --> 00:39:14,432
+A ground TR
+
+659
+00:39:14,688 --> 00:39:18,528
+It doesn't know anything any sense of meeting that is derived from the training process
+
+660
+00:39:19,040 --> 00:39:20,576
+Is purely out of
+
+661
+00:39:20,832 --> 00:39:24,416
+Differentiation one word is not another word words are not used
+
+662
+00:39:24,672 --> 00:39:25,696
+The same contact
+
+663
+00:39:25,952 --> 00:39:31,072
+It understands everything only through examples given through language it's like someone who learned English
+
+664
+00:39:31,584 --> 00:39:32,352
+Or how to speak
+
+665
+00:39:32,608 --> 00:39:38,752
+But they grew up in a featureless gray room that never seen the outside world they have nothing to rest on that tells them that something is
+
+666
+00:39:39,008 --> 00:39:40,032
+True and something is not true
+
+667
+00:39:40,800 --> 00:39:43,360
+So from the models perspective everything that it says
+
+668
+00:39:43,616 --> 00:39:47,200
+It's true it's trying its best to give you the best answer possible and if
+
+669
+00:39:47,968 --> 00:39:52,832
+Lying a little bit or conflating two different topics is the best way to achieve that then it will decide to do so
+
+670
+00:39:53,600 --> 00:39:55,904
+It's a part of the architecture we can't get around it
+
+671
+00:39:56,160 --> 00:39:58,208
+There are a number of cheap tricks
+
+672
+00:39:58,464 --> 00:40:04,608
+That surprisingly get it to confabulate her hallucinate less one of them includes recently there was a paper that's a little funny
+
+673
+00:40:04,864 --> 00:40:06,656
+If you get it to pretend
+
+674
+00:40:08,448 --> 00:40:09,472
+My best guess is
+
+675
+00:40:09,728 --> 00:40:11,008
+That will actually improve
+
+676
+00:40:11,520 --> 00:40:14,080
+Or reduce hallucinations by about 80%
+
+677
+00:40:14,336 --> 00:40:18,944
+But we're not quite sure what that is
+
+678
+00:40:19,200 --> 00:40:22,528
+Turn on to what time was saying a few cheap things you can do include
+
+679
+00:40:23,808 --> 00:40:27,904
+Google or Bing as in bing chai what they're doing and it says this information
+
+680
+00:40:29,696 --> 00:40:33,792
+Make sure its own responses good if you've ever had such a BT generate a program
+
+681
+00:40:37,376 --> 00:40:38,144
+I think there's a mistake
+
+682
+00:40:38,400 --> 00:40:40,448
+Austin it will locate the mistake itself
+
+683
+00:40:40,960 --> 00:40:44,544
+Why I didn't produce the right answer at the very beginning we're still not sure
+
+684
+00:40:44,800 --> 00:40:47,616
+But we're moving in the direction of reducing hallucinations not with respect
+
+685
+00:40:47,872 --> 00:40:48,384
+Physics
+
+686
+00:40:48,640 --> 00:40:50,944
+You're going to have to give it an external database
+
+687
+00:40:51,200 --> 00:40:52,992
+To restaurant because internally
+
+688
+00:40:53,760 --> 00:40:54,784
+For really really
+
+689
+00:40:55,296 --> 00:40:58,112
+Domain specific knowledge it's not going to
+
+690
+00:40:58,880 --> 00:41:00,416
+B
+
+691
+00:41:00,672 --> 00:41:04,768
+Deterministic as one would like these things work and continuous spaces these things
+
+692
+00:41:05,280 --> 00:41:07,328
+They don't know what is wrong what is true
+
+693
+00:41:07,584 --> 00:41:08,864
+And as a result
+
+694
+00:41:14,496 --> 00:41:17,568
+Striving at reducing hallucinations actually really and giving it more AB
+
+695
+00:41:20,384 --> 00:41:23,968
+One of the ways to that I mean I'm a simple guy like I tend to think that
+
+696
+00:41:24,480 --> 00:41:27,808
+All of the world tends to be just a few things repeated over and over again
+
+697
+00:41:32,416 --> 00:41:33,184
+Keep playing sports
+
+698
+00:41:33,440 --> 00:41:35,744
+And we're not right all the time even when we aspire to be
+
+699
+00:41:36,000 --> 00:41:39,584
+And so we have systems that we've developed as humans to deal with
+
+700
+00:41:39,840 --> 00:41:40,864
+Things that may be wrong
+
+701
+00:41:41,120 --> 00:41:43,680
+So you know human number one proposes an answer
+
+702
+00:41:43,936 --> 00:41:45,472
+Human number two checks their work
+
+703
+00:41:45,728 --> 00:41:51,616
+Human number three provides the final sign-off this is really common anybody who's worked in a company has seen this in practice
+
+704
+00:41:51,872 --> 00:41:54,943
+The interesting thing about the state of software right now
+
+705
+00:41:55,199 --> 00:41:59,551
+We tend to be in this mode in which we're just talking to GPT is one entity
+
+706
+00:42:00,063 --> 00:42:02,367
+But once we start thinking in terms of teams
+
+707
+00:42:02,623 --> 00:42:03,135
+Is so to speak
+
+708
+00:42:03,391 --> 00:42:07,231
+Where each team member is its own agent with its own set of objectives and skills
+
+709
+00:42:07,743 --> 00:42:13,887
+I suspect we're going to start seeing a programming model in which the way to solve this might not necessarily be
+
+710
+00:42:14,143 --> 00:42:15,423
+Make a single brain smarter
+
+711
+00:42:15,679 --> 00:42:20,543
+But instead be draw upon the collective intelligence of multiple software agents
+
+712
+00:42:20,799 --> 00:42:21,567
+Each playing a row
+
+713
+00:42:22,079 --> 00:42:23,103
+And and I think that that
+
+714
+00:42:23,615 --> 00:42:25,919
+Would certainly follow the human pattern of how we deal
+
+715
+00:42:26,431 --> 00:42:28,735
+To give an analogy space shuttles
+
+716
+00:42:29,247 --> 00:42:30,783
+Things that go into space spacecraft
+
+717
+00:42:31,295 --> 00:42:32,319
+They have to be
+
+718
+00:42:32,831 --> 00:42:35,135
+Good if they're not good people die they have
+
+719
+00:42:35,391 --> 00:42:37,695
+No no margin for error at all
+
+720
+00:42:37,951 --> 00:42:40,255
+As a result we over-engineering those systems
+
+721
+00:42:40,511 --> 00:42:44,095
+Most spacecraft have three computers and they all have to agree in unison
+
+722
+00:42:44,351 --> 00:42:46,399
+Turn on a particular step to go forward
+
+723
+00:42:46,655 --> 00:42:47,935
+One does not agree
+
+724
+00:42:48,191 --> 00:42:51,519
+Then they recalculate the recalculate the recalculate until they arrive at something
+
+725
+00:42:52,031 --> 00:42:53,823
+Did the good thing is that hallucinations
+
+726
+00:42:54,079 --> 00:42:56,639
+Are generally not a systemic problem in terms of its knowledge
+
+727
+00:42:57,151 --> 00:42:58,431
+It's often a one-off
+
+728
+00:42:58,687 --> 00:43:00,991
+What's the model of something tripped it up and it just produced
+
+729
+00:43:01,247 --> 00:43:04,319
+Working in unison
+
+730
+00:43:06,111 --> 00:43:08,671
+That will generally speaking improve your
+
+731
+00:43:23,263 --> 00:43:27,871
+Sure I'm going to give you what might be an unsatisfying answer which is it tends to work
+
+732
+00:43:28,127 --> 00:43:33,759
+But I think we know why it tends to work and again it's because these language models approximate how we talk to each other
+
+733
+00:43:34,015 --> 00:43:38,623
+So if I were to say to you hey help me out I need you to mock interview me
+
+734
+00:43:38,879 --> 00:43:41,951
+That's a direct statement I can make that kicks you into a certain mode of interaction
+
+735
+00:43:42,719 --> 00:43:44,511
+Or if I say to you help me out
+
+736
+00:43:44,767 --> 00:43:46,559
+I'm trying to apologize to my wife
+
+737
+00:43:46,815 --> 00:43:48,863
+She's really mad at me can you role play with me
+
+738
+00:43:49,119 --> 00:43:55,263
+Play that kicks you into another motive interaction and and so it's really just a shorthand that people have found to kick the
+
+739
+00:43:55,519 --> 00:43:58,079
+Agent in to kick the llm into a certain mode of interaction
+
+740
+00:43:58,335 --> 00:44:01,151
+The tends to work in the way that I as a software developer
+
+741
+00:44:01,407 --> 00:44:02,175
+I'm hoping it would work
+
+742
+00:44:06,271 --> 00:44:11,135
+Being in the digital Humanities that I am I like to think of it as a narrative a narrative will
+
+743
+00:44:11,391 --> 00:44:13,183
+A few different characters talking to each other
+
+744
+00:44:13,439 --> 00:44:14,975
+The rules are clearly defined
+
+745
+00:44:15,231 --> 00:44:16,511
+Two people are not the same
+
+746
+00:44:17,535 --> 00:44:21,631
+This interaction with GPT it assumes a personality it can simulate personalities
+
+747
+00:44:21,887 --> 00:44:24,703
+Is it itself is not cautious in any way but it can certainly
+
+748
+00:44:25,983 --> 00:44:31,103
+Predict what a conscious being would react like in a particular situation so when we're going you are
+
+749
+00:44:31,615 --> 00:44:32,127
+It is
+
+750
+00:44:32,639 --> 00:44:35,711
+Drawing of that personality and talking as long as that person
+
+751
+00:44:35,967 --> 00:44:39,551
+Because it is it is like completing a transcript or completing a story
+
+752
+00:44:39,807 --> 00:44:41,087
+In which that character is present
+
+753
+00:44:41,599 --> 00:44:42,367
+And interacting
+
+754
+00:44:46,207 --> 00:44:48,255
+I think we got about 5 minutes until the pizza outside
+
+755
+00:45:48,927 --> 00:45:52,255
+So GPT for One gpc4 release back in
+
+756
+00:45:52,767 --> 00:45:53,791
+March I think it was
+
+757
+00:45:54,047 --> 00:45:55,327
+It was passing Elsa
+
+758
+00:46:01,983 --> 00:46:04,287
+That's one of the weird things is that
+
+759
+00:46:06,591 --> 00:46:09,407
+If you pay for Chachi PT they give you access to the better model
+
+760
+00:46:11,199 --> 00:46:14,527
+What are the interesting things with it is prompting it's so finicky
+
+761
+00:46:14,783 --> 00:46:17,343
+It's very sensitive to the way that you prompt
+
+762
+00:46:17,855 --> 00:46:23,999
+The earlier on when gpt-3 came out some people were going look I can pass literacy tests or no it can't pass
+
+763
+00:46:24,255 --> 00:46:24,767
+Call Teresita
+
+764
+00:46:25,023 --> 00:46:27,839
+And the people who are pro or anti GPT would be like
+
+765
+00:46:28,095 --> 00:46:30,911
+I modified The Prompt a little bit suddenly I can suddenly I can't
+
+766
+00:46:31,423 --> 00:46:32,959
+These things are not conscious
+
+767
+00:46:33,471 --> 00:46:35,519
+The ability to reason is like an alien
+
+768
+00:46:36,031 --> 00:46:38,591
+They're not us they don't think like people they're not human
+
+769
+00:46:38,847 --> 00:46:40,895
+But they certainly are capable
+
+770
+00:46:41,151 --> 00:46:44,479
+Of passing some things empirically which demonstrates some sort of
+
+771
+00:46:44,735 --> 00:46:46,271
+Rational or logic within the model
+
+772
+00:46:46,527 --> 00:46:48,063
+But we're still slowly figuring out
+
+773
+00:46:49,855 --> 00:46:50,879
+What exactly the right approach
+
+774
+00:47:23,903 --> 00:47:26,463
+Companies on top of us who that's their primary product
+
+775
+00:47:26,975 --> 00:47:33,119
+The the value that it adds is like any company I mean it's you know what is the Y combinator
+
+776
+00:47:33,375 --> 00:47:34,911
+Is there a motto make something people want I mean
+
+777
+00:47:35,167 --> 00:47:38,751
+I wouldn't think of this as GPT inherently provides value
+
+778
+00:47:39,007 --> 00:47:44,383
+GPT for prioritized access
+
+779
+00:47:44,895 --> 00:47:46,687
+Where your product might be
+
+780
+00:47:46,943 --> 00:47:48,991
+Is how you take that and combined it
+
+781
+00:47:49,247 --> 00:47:52,831
+Your data somebody else's data some domain knowledge some interface
+
+782
+00:47:53,087 --> 00:47:55,647
+That then helps apply it to something
+
+783
+00:47:55,903 --> 00:47:59,999
+It is two things are both true there are a lot of experiments going on right now
+
+784
+00:48:00,255 --> 00:48:04,863
+Both for fun and people trying to figure out where the economic value is
+
+785
+00:48:05,119 --> 00:48:08,959
+Companies that are 100% supported by applying this
+
+786
+00:48:25,343 --> 00:48:27,903
+I I think that it is likely
+
+787
+00:48:28,159 --> 00:48:32,255
+That today we call this GPT and today we call these flms and tomorrow it will just
+
+788
+00:48:32,511 --> 00:48:38,655
+Slide into The Ether imagine what the imagine what the progression is going to be today there's one of these that the people are primarily
+
+789
+00:48:38,911 --> 00:48:41,983
+Top
+
+790
+00:48:42,495 --> 00:48:44,031
+Tomorrow we can expect
+
+791
+00:48:44,287 --> 00:48:45,567
+That there will be many of them
+
+792
+00:48:45,823 --> 00:48:49,919
+And the day after that we can expect they're going to be on our phones and they're not even going to be connected to the internet
+
+793
+00:48:50,687 --> 00:48:56,831
+And for that reason I think that like today we don't call our software microprocessor tools or
+
+794
+00:48:57,087 --> 00:48:59,647
+Is microprocessor apps like the processor just exists
+
+795
+00:48:59,903 --> 00:49:03,487
+I think that one useful Model 5 years
+
+796
+00:49:03,743 --> 00:49:04,255
+10 years out
+
+797
+00:49:04,767 --> 00:49:08,095
+Is to even if it's only metaphorically true and not literally true
+
+798
+00:49:08,351 --> 00:49:14,495
+I think it's useful to think of this as a second processor we have this before with with with floating point
+
+799
+00:49:14,751 --> 00:49:16,543
+What processors in graphic scope processors
+
+800
+00:49:19,359 --> 00:49:25,503
+It's useful to think of the trajectory of this as just another thing that computers to do can do and will be incorporated
+
+801
+00:49:25,759 --> 00:49:26,783
+Put it into absolutely everything
+
+802
+00:49:27,039 --> 00:49:28,831
+Hence the term Foundation model which
+
+803
+00:49:58,271 --> 00:50:03,391
+It's hard to get it to do that reliably it's incredibly useful to get it to do reliable so some tricks you can use
+
+804
+00:50:03,647 --> 00:50:04,927
+You can give examples
+
+805
+00:50:05,439 --> 00:50:07,231
+You can just ask it directly
+
+806
+00:50:07,743 --> 00:50:09,791
+Those are two common tricks
+
+807
+00:50:10,047 --> 00:50:16,191
+And and look at the prompts that others have used to work I mean there's a lot of art to finding the right prompt right now
+
+808
+00:50:16,447 --> 00:50:18,239
+A lot of it is Magic incantation
+
+809
+00:50:18,751 --> 00:50:21,567
+Another thing you can do is post-process it
+
+810
+00:50:22,079 --> 00:50:28,223
+So that you can do some checking and you can have a happy path in which it's a one shot and you get your answer and then a sad path
+
+811
+00:50:28,479 --> 00:50:32,831
+Can which maybe you fall back on other prompts so then you're going for the diversity of approach where
+
+812
+00:50:33,087 --> 00:50:34,367
+It's it's fast by default
+
+813
+00:50:34,623 --> 00:50:38,719
+It's slow but ultimately converging upon higher likelihood of success if it fails
+
+814
+00:50:39,231 --> 00:50:45,119
+Instruction tuning style models
+
+815
+00:50:45,375 --> 00:50:48,191
+Which are more likely to respond with the computer possible
+
+816
+00:51:11,487 --> 00:51:17,631
+That's a great question so the question was and I apologize I just realized we haven't been repeating all the questions for the the YouTube listeners so I'm sorry for the focus on
+
+817
+00:51:17,887 --> 00:51:19,679
+Open YouTube if you weren't able to hear some of the questions
+
+818
+00:51:19,935 --> 00:51:26,079
+The question was what are the Privacy implications of some of these prompts if one of the messages is so much depends upon your prompt
+
+819
+00:51:26,335 --> 00:51:28,383
+In the fine tuning of this prompt what does that mean
+
+820
+00:51:28,639 --> 00:51:31,199
+With respect to my IP maybe the prompt is my business
+
+821
+00:51:31,711 --> 00:51:37,599
+I can't offer you the exact answer but I can paint for you what approximately the landscape looks like so
+
+822
+00:51:37,855 --> 00:51:40,159
+In all of software and so too with AI
+
+823
+00:51:40,415 --> 00:51:46,559
+What we see is there the SAS companies where you're using somebody else's API and you're trusting that their terms and service
+
+824
+00:51:46,815 --> 00:51:47,839
+This will be upheld
+
+825
+00:51:48,351 --> 00:51:53,727
+There's the set of companies in which they provide a model for hosting on one of the big cloud providers
+
+826
+00:51:53,983 --> 00:52:00,127
+And this is a version of the same thing but I think with slightly different mechanics this tends to be thought of as the Enterprise version of software
+
+827
+00:52:00,383 --> 00:52:06,527
+And by and large the industry has moved over the past 20 years from running my own servers to trusting that Microsoft or Amazon or Google can
+
+828
+00:52:06,783 --> 00:52:10,623
+Run servers for me and they say it's my private server even though I know they're running it
+
+829
+00:52:10,879 --> 00:52:11,647
+And I'm okay with that
+
+830
+00:52:12,159 --> 00:52:18,303
+With their own version of
+
+831
+00:52:18,559 --> 00:52:21,375
+How hard are going to do these where you'll have the SAS version
+
+832
+00:52:23,935 --> 00:52:30,079
+And then there's a third version that I think we haven't yet seen practically emerged but this would be the the maximalist I want to make sure my
+
+833
+00:52:30,335 --> 00:52:35,967
+IP is maximally safe version of events in which you are running your own machines you are running your own models
+
+834
+00:52:36,223 --> 00:52:37,503
+And then the question is
+
+835
+00:52:37,759 --> 00:52:40,831
+Is the open source and or privately available version of the model
+
+836
+00:52:41,087 --> 00:52:44,415
+As good as the publicly hosted one and does that matter to me
+
+837
+00:52:44,671 --> 00:52:47,487
+And the answer is right now realistically it probably matters a lot
+
+838
+00:52:47,999 --> 00:52:54,143
+In the fullness of time you can think of any one particular task you need to achieve is requiring some fixed point of
+
+839
+00:52:54,399 --> 00:52:55,423
+Intelligence to achieve
+
+840
+00:52:57,727 --> 00:53:01,055
+The privately obtainable versions of these models will cross that threshold
+
+841
+00:53:01,311 --> 00:53:03,103
+And with respect to that one task
+
+842
+00:53:03,359 --> 00:53:06,175
+Ask ya sure use the open source version run it on your own machine
+
+843
+00:53:06,431 --> 00:53:08,735
+But will also see the SAS intelligence
+
+844
+00:53:08,991 --> 00:53:10,527
+Get smarter it'll probably stay ahead
+
+845
+00:53:11,039 --> 00:53:13,087
+And then your question is well which one do I care more about
+
+846
+00:53:13,599 --> 00:53:19,743
+Do I want like the better aggregate intelligence or is my task somewhat fixed point and I can just use the open source available
+
+847
+00:53:19,999 --> 00:53:22,559
+Cross the threshold
+
+848
+00:53:23,071 --> 00:53:24,863
+So to answer your question specifically
+
+849
+00:53:25,119 --> 00:53:26,143
+Yes
+
+850
+00:53:26,655 --> 00:53:32,287
+You might be glad to know if Chachi PT recently updated their privacy policy to not use prompts for the training process
+
+851
+00:53:32,799 --> 00:53:35,615
+Put up until now everything went back into the bin to be trained
+
+852
+00:53:37,663 --> 00:53:38,431
+And that's just
+
+853
+00:53:39,199 --> 00:53:40,479
+So I think Pizza
